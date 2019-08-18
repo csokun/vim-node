@@ -125,3 +125,7 @@ let g:jsx_ext_required = 1
 " Emmet
 let g:user_emmet_install_global = 0
 autocmd FileType html,css EmmetInstall
+
+" Transparent background
+hi NonText ctermbg=none
+hi Normal guibg=NONE ctermbg=NONE
