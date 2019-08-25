@@ -33,6 +33,7 @@ Plugin 'mxw/vim-jsx'
 Plugin 'w0rp/ale'
 Plugin 'prettier/vim-prettier'
 Plugin 'mattn/emmet-vim'
+Plugin 'tpope/vim-obsession'
 
 " colorschemes
 Plugin 'nanotech/jellybeans.vim.git'
