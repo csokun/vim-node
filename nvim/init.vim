@@ -33,8 +33,8 @@ set tabstop=2       " Show existing tab with 2 spaces width
 set shiftwidth=2    " When indenting with '>', use 2 spaces width
 set expandtab     " On pressing tab insert 2 spaces
 
-" set list
-" set listchars=tab:→\ ,nbsp:␣,trail:•,extends:⟩,precedes:⟨,space:.
+set list
+set listchars=tab:→\ ,nbsp:␣,trail:•,extends:⟩,precedes:⟨,space:.
 
 set ruler
 set showcmd
