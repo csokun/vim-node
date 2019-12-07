@@ -92,6 +92,7 @@ let g:EasyMotion_smartcase = 1
 " JK motions: Line motions
 map <Leader>j <Plug>(easymotion-j)
 map <Leader>k <Plug>(easymotion-k)
+
 " airline
 let g:airline_powerline_fonts = 1
 let g:airline_theme='jellybeans'
