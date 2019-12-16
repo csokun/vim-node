@@ -18,6 +18,7 @@ Plug 'jeetsukumaran/vim-buffergator'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'nanotech/jellybeans.vim'
+Plug 'tpope/vim-fugitive'
 Plug 'edkolev/tmuxline.vim'
 
 " Initialize plugin system
