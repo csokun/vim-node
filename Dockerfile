@@ -11,11 +11,11 @@ RUN apt-get update && apt-get install -y --no-install-recommends tmux curl git j
     && npm i -g eslint pino-pretty \
     && rm -rf /var/lib/apt/lists/*
 
-RUN groupadd -g 1000 appuser && \
-    useradd -s /bin/bash -r -u 1000 -g appuser appuser && \
+RUN groupadd -g 1000 nodejs && \
+    useradd -s /bin/bash -r -u 1000 -g nodejs nodejs && \
     cp /bin/bash /bin/sh
 
-ENV HOME=/home/appuser
+ENV HOME=/home/nodejs
 
 # neovim
 COPY nvim/* $HOME/.config/nvim/
@@ -49,8 +49,8 @@ RUN mkdir -p $HOME/.local/share/fonts && \
 COPY tmux/.tmux.conf $HOME/.tmux.conf
 
 # switch user
-RUN chown -R appuser $HOME && echo "source ~/.bashrc" >> $HOME/.bash_profile
-USER appuser
+RUN chown -R nodejs $HOME && echo "source ~/.bashrc" >> $HOME/.bash_profile
+USER nodejs
 
 WORKDIR /src
 
