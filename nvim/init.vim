@@ -12,6 +12,7 @@ call plug#begin('/plugged')
 " load more plugins
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'scrooloose/nerdtree'
+Plug 'tomtom/tcomment_vim' " gc - comment/uncomment
 Plug 'easymotion/vim-easymotion'
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'jeetsukumaran/vim-buffergator'
@@ -25,6 +26,8 @@ Plug 'edkolev/tmuxline.vim'
 call plug#end()
 
 " VIM config
+let mapleader=","
+syntax on
 filetype plugin indent on " required
 set number
 set numberwidth=5
@@ -45,7 +48,7 @@ set autowrite       " Automatically :write before running commands
 set noswapfile
 
 " Fixing annoying Shift + O delay
-set timeout timeoutlen=3000 timeoutlen=100
+set timeout timeoutlen=3000 timeoutlen=1500
 
 " Make it obvious where 80 characters is
 "set textwidth=80
