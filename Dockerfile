@@ -11,14 +11,20 @@ RUN apt-get update && apt-get install -y --no-install-recommends tmux curl git j
     && npm i -g eslint pino-pretty \
     && rm -rf /var/lib/apt/lists/*
 
+RUN groupadd -g 1000 appuser && \
+    useradd -s /bin/bash -r -u 1000 -g appuser appuser && \
+    cp /bin/bash /bin/sh
+
+ENV HOME=/home/appuser
+
 # neovim
-COPY nvim/* /root/.config/nvim/
+COPY nvim/* $HOME/.config/nvim/
 ADD https://github.com/neovim/neovim/releases/download/stable/nvim-linux64.tar.gz /tmp/
 RUN cd /tmp && tar -xf nvim-linux64.tar.gz && \
     cp -a nvim-linux64/* /usr/local/ && \
     rm -rf /tmp/* && \
     # install Plug
-    curl -fLo /root/.config/nvim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim && \
+    curl -fLo $HOME/.config/nvim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim && \
     nvim +PlugInstall +qall && \
     nvim -c 'CocInstall -sync coc-json coc-eslint coc-prettier coc-html coc-emmet coc-tsserver|q' && \
     # neovim alias
@@ -27,20 +33,24 @@ RUN cd /tmp && tar -xf nvim-linux64.tar.gz && \
 
 # git prompt
 COPY bin/studio /usr/local/bin/studio
-COPY .bashrc /root/.bashrc
-RUN curl -sL https://raw.githubusercontent.com/git/git/master/contrib/completion/git-prompt.sh -o /root/.git-prompt.sh && \
-    chmod +x /root/.git-prompt.sh && \
+COPY .bashrc $HOME/.bashrc
+RUN curl -sL https://raw.githubusercontent.com/git/git/master/contrib/completion/git-prompt.sh -o $HOME/.git-prompt.sh && \
+    chmod +x $HOME/.git-prompt.sh && \
     chmod +x /usr/local/bin/studio
 
 # powerline fonts
-RUN mkdir -p /root/.local/share/fonts && \
-    curl -sL https://github.com/powerline/powerline/raw/develop/font/PowerlineSymbols.otf -o /root/.local/share/fonts/PowerlineSymbols.otf && \
-    fc-cache -vf /root/.local/share/fonts/ && \
-    mkdir -p /root/.config/fontconfig/conf.d/ && \
-    curl -sL https://github.com/powerline/powerline/raw/develop/font/10-powerline-symbols.conf -o /root/.config/fontconfig/conf.d/10-powerline-symbols.conf
+RUN mkdir -p $HOME/.local/share/fonts && \
+    curl -sL https://github.com/powerline/powerline/raw/develop/font/PowerlineSymbols.otf -o $HOME/.local/share/fonts/PowerlineSymbols.otf && \
+    fc-cache -vf $HOME/.local/share/fonts/ && \
+    mkdir -p $HOME/.config/fontconfig/conf.d/ && \
+    curl -sL https://github.com/powerline/powerline/raw/develop/font/10-powerline-symbols.conf -o $HOME/.config/fontconfig/conf.d/10-powerline-symbols.conf
 
 # tmux
-COPY tmux/.tmux.conf /root/.tmux.conf
+COPY tmux/.tmux.conf $HOME/.tmux.conf
+
+# switch user
+RUN chown -R appuser $HOME && echo "source ~/.bashrc" >> $HOME/.bash_profile
+USER appuser
 
 WORKDIR /src
 
