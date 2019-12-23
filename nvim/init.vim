@@ -15,7 +15,6 @@ Plug 'scrooloose/nerdtree'
 Plug 'tomtom/tcomment_vim' " gc - comment/uncomment
 Plug 'easymotion/vim-easymotion'
 Plug 'ctrlpvim/ctrlp.vim'
-Plug 'jeetsukumaran/vim-buffergator'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'nanotech/jellybeans.vim'
@@ -65,8 +64,11 @@ nnoremap <C-h> <C-w>h
 nnoremap <C-l> <C-w>l
 
 " CtrlP - https://github.com/ctrlpvim/ctrlp.vim
+nnoremap <C-b> :CtrlPBuffer<CR>
 let g:ctrlp_root_markers = ['package.json', 'mix.exs']
-let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files -co --exclude-standard']
+if executable('rg')
+  let g:ctrlp_user_command = ['.git', 'rg %s --files --hidden --color=never --glob "" && git ls-files -co --exclude-standard']
+endif
 
 " NERDTree
 map <C-n> :NERDTreeToggle<CR> " Ctrl + n
@@ -84,11 +86,6 @@ let g:EasyMotion_do_mapping = 0 " Disable default mappings
 " binding.
 " `s{char}{label}`
 nmap s <Plug>(easymotion-overwin-f)
-
-" Buffergator
-nmap <C-b> :BuffergatorToggle<CR>
-let g:buffergator_autoexpand_on_split = 0
-let g:buffergator_suppress_keymaps = 1
 
 " Turn on case insensitive feature
 let g:EasyMotion_smartcase = 1

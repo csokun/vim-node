@@ -5,10 +5,11 @@ ENV LANG C.UTF-8
 ENV LC_ALL C.UTF-8
 ENV TERM xterm-256color
 
-RUN apt-get update && apt-get install -y --no-install-recommends tmux curl git jq inotify-tools fontconfig ca-certificates \
+RUN apt-get update && apt-get install -y --no-install-recommends tmux ripgrep curl git jq inotify-tools fontconfig ca-certificates \
     && curl -sL https://deb.nodesource.com/setup_12.x | bash - \
     && apt-get update && apt-get install nodejs -y --no-install-recommends \
     && npm i -g eslint pino-pretty \
+    && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
 RUN groupadd -g 1000 nodejs && \
@@ -48,10 +49,11 @@ RUN mkdir -p $HOME/.local/share/fonts && \
 # tmux
 COPY tmux/.tmux.conf $HOME/.tmux.conf
 
-# switch user
-RUN chown -R nodejs $HOME && echo "source ~/.bashrc" >> $HOME/.bash_profile
-USER nodejs
-
 WORKDIR /src
+
+# switch user
+RUN chown -R nodejs $HOME /src \
+    && echo "source ~/.bashrc" >> $HOME/.bash_profile
+USER nodejs
 
 CMD ["studio"]
